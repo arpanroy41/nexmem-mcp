@@ -111,6 +111,18 @@ Every entity and relation is tagged with the namespace in the database:
 - Multiple teams can share the same database — their data is isolated by namespace.
 - Switching modes doesn't delete data. Both `self:alice` and `team:platform-eng` can coexist.
 
+## Why Team Sharing?
+
+Without shared memory, every agent on your team works in isolation. Alice's agent spends 20 minutes tracing how `PaymentService` authenticates requests — then Bob's agent does the exact same work the next day. A new hire's agent rediscovers every architectural decision from scratch. Knowledge stays locked inside individual sessions and vanishes when the conversation ends.
+
+With NexMem in team mode, that cycle breaks:
+
+**Before** — Each developer's agent starts from zero every session. The same services, patterns, and gotchas get rediscovered over and over. Onboarding is slow. Tribal knowledge lives in Slack threads and outdated wiki pages that agents can't read.
+
+**After** — One agent discovers that `PaymentService` uses gRPC and depends on `AuthService`. Seconds later, every team member's agent knows it too. A new hire's agent on day one already understands the architecture, naming conventions, and non-obvious configuration details that took the team months to accumulate.
+
+This happens with **zero extra effort** — agents read from and write to the shared graph as a natural part of their workflow. No one has to remember to "save to memory" or maintain documentation manually. The knowledge graph grows organically as the team works and stays current because it's written by the agents actually touching the code.
+
 ## Team Setup
 
 ### Step 1: Provision a shared database
