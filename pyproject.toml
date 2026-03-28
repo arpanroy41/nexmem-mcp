@@ -49,9 +49,9 @@ dev = [
 hivemind-mcp = "hivemind_mcp.server:main"
 
 [project.urls]
-Homepage = "https://github.com/hivemind-mcp/hivemind-mcp"
-Repository = "https://github.com/hivemind-mcp/hivemind-mcp"
-Issues = "https://github.com/hivemind-mcp/hivemind-mcp/issues"
+Homepage = "https://github.com/arpanroy41/hivemind-mcp"
+Repository = "https://github.com/arpanroy41/hivemind-mcp"
+Issues = "https://github.com/arpanroy41/hivemind-mcp/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/hivemind_mcp"]

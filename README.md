@@ -251,7 +251,7 @@ docker run -e HIVEMIND_MODE=team -e HIVEMIND_BACKEND=mongodb \
 ## Development
 
 ```bash
-git clone https://github.com/hivemind-mcp/hivemind-mcp.git
+git clone https://github.com/arpanroy41/hivemind-mcp.git
 cd hivemind-mcp
 pip install -e ".[dev]"
 pytest
