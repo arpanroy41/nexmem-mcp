@@ -1,14 +1,14 @@
 """MongoDB adapter — recommended for team mode.
 
-Requires: pip install 'mcp-hivemind[mongodb]'
+Requires: pip install 'mcp-nexmem[mongodb]'
 """
 
 from __future__ import annotations
 
-from hivemind_mcp.adapters import register_adapter
-from hivemind_mcp.adapters.base import StorageAdapter
-from hivemind_mcp.config import HiveMindConfig
-from hivemind_mcp.types import (
+from nexmem_mcp.adapters import register_adapter
+from nexmem_mcp.adapters.base import StorageAdapter
+from nexmem_mcp.config import NexMemConfig
+from nexmem_mcp.types import (
     Entity,
     KnowledgeGraph,
     ObservationDeletion,
@@ -21,15 +21,15 @@ try:
     import motor.motor_asyncio as motor
 except ImportError:
     raise ImportError(
-        "MongoDB adapter requires 'motor'. Install with: pip install 'mcp-hivemind[mongodb]'"
+        "MongoDB adapter requires 'motor'. Install with: pip install 'mcp-nexmem[mongodb]'"
     )
 
 
 @register_adapter("mongodb")
 class MongoDBAdapter(StorageAdapter):
-    def __init__(self, config: HiveMindConfig) -> None:
+    def __init__(self, config: NexMemConfig) -> None:
         self._client = motor.AsyncIOMotorClient(config.mongodb_uri)
-        db_name = config.mongodb_uri.rsplit("/", 1)[-1].split("?")[0] or "hivemind"
+        db_name = config.mongodb_uri.rsplit("/", 1)[-1].split("?")[0] or "nexmem"
         self._db = self._client[db_name]
         self._entities = self._db["entities"]
         self._relations = self._db["relations"]

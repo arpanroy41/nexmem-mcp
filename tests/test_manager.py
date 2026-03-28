@@ -2,9 +2,9 @@
 
 import pytest
 
-from hivemind_mcp.adapters.jsonl import JsonlAdapter
-from hivemind_mcp.manager import KnowledgeGraphManager
-from hivemind_mcp.types import Entity, ObservationUpdate, Relation
+from nexmem_mcp.adapters.jsonl import JsonlAdapter
+from nexmem_mcp.manager import KnowledgeGraphManager
+from nexmem_mcp.types import Entity, ObservationUpdate, Relation
 
 
 @pytest.fixture

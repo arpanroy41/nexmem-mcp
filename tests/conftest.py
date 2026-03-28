@@ -1,4 +1,4 @@
-"""Shared fixtures for hivemind-mcp tests."""
+"""Shared fixtures for nexmem-mcp tests."""
 
 from __future__ import annotations
 
@@ -7,10 +7,10 @@ from pathlib import Path
 
 import pytest
 
-from hivemind_mcp.adapters.jsonl import JsonlAdapter
-from hivemind_mcp.adapters.sqlite import SqliteAdapter
-from hivemind_mcp.config import BackendType, HiveMindConfig, MemoryMode
-from hivemind_mcp.types import Entity, Relation
+from nexmem_mcp.adapters.jsonl import JsonlAdapter
+from nexmem_mcp.adapters.sqlite import SqliteAdapter
+from nexmem_mcp.config import BackendType, NexMemConfig, MemoryMode
+from nexmem_mcp.types import Entity, Relation
 
 
 @pytest.fixture
@@ -37,8 +37,8 @@ def tmp_dir():
 
 
 @pytest.fixture
-def jsonl_config(tmp_dir: Path) -> HiveMindConfig:
-    return HiveMindConfig(
+def jsonl_config(tmp_dir: Path) -> NexMemConfig:
+    return NexMemConfig(
         mode=MemoryMode.SELF,
         user_name="testuser",
         backend=BackendType.JSONL,
@@ -47,13 +47,13 @@ def jsonl_config(tmp_dir: Path) -> HiveMindConfig:
 
 
 @pytest.fixture
-def jsonl_adapter(jsonl_config: HiveMindConfig) -> JsonlAdapter:
+def jsonl_adapter(jsonl_config: NexMemConfig) -> JsonlAdapter:
     return JsonlAdapter(jsonl_config)
 
 
 @pytest.fixture
-def sqlite_config(tmp_dir: Path) -> HiveMindConfig:
-    return HiveMindConfig(
+def sqlite_config(tmp_dir: Path) -> NexMemConfig:
+    return NexMemConfig(
         mode=MemoryMode.SELF,
         user_name="testuser",
         backend=BackendType.SQLITE,
@@ -62,5 +62,5 @@ def sqlite_config(tmp_dir: Path) -> HiveMindConfig:
 
 
 @pytest.fixture
-def sqlite_adapter(sqlite_config: HiveMindConfig) -> SqliteAdapter:
+def sqlite_adapter(sqlite_config: NexMemConfig) -> SqliteAdapter:
     return SqliteAdapter(sqlite_config)

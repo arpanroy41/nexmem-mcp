@@ -24,8 +24,8 @@ class BackendType(str, Enum):
     REDIS = "redis"
 
 
-class HiveMindConfig(BaseSettings):
-    model_config = {"env_prefix": "HIVEMIND_"}
+class NexMemConfig(BaseSettings):
+    model_config = {"env_prefix": "NEXMEM_"}
 
     mode: MemoryMode = MemoryMode.SELF
     user_name: str = ""
@@ -37,8 +37,8 @@ class HiveMindConfig(BaseSettings):
     # Backend-specific
     jsonl_path: str = ""
     sqlite_path: str = ""
-    mongodb_uri: str = "mongodb://localhost:27017/hivemind"
-    postgres_uri: str = "postgresql://localhost:5432/hivemind"
+    mongodb_uri: str = "mongodb://localhost:27017/nexmem"
+    postgres_uri: str = "postgresql://localhost:5432/nexmem"
     redis_url: str = "redis://localhost:6379/0"
 
     @field_validator("user_name", mode="before")
@@ -52,20 +52,20 @@ class HiveMindConfig(BaseSettings):
     @classmethod
     def default_jsonl_path(cls, v: str) -> str:
         if not v:
-            return str(Path.home() / ".hivemind" / "memory.jsonl")
+            return str(Path.home() / ".nexmem" / "memory.jsonl")
         return v
 
     @field_validator("sqlite_path", mode="before")
     @classmethod
     def default_sqlite_path(cls, v: str) -> str:
         if not v:
-            return str(Path.home() / ".hivemind" / "memory.db")
+            return str(Path.home() / ".nexmem" / "memory.db")
         return v
 
     def validate_team_mode(self) -> None:
         if self.mode == MemoryMode.TEAM and not self.team_name:
             raise ValueError(
-                "HIVEMIND_TEAM_NAME is required when HIVEMIND_MODE=team"
+                "NEXMEM_TEAM_NAME is required when NEXMEM_MODE=team"
             )
 
     def get_instructions(self) -> str:
@@ -79,7 +79,7 @@ class HiveMindConfig(BaseSettings):
 
 
 DEFAULT_INSTRUCTIONS = """\
-You have access to a shared knowledge graph (HiveMind) for persistent memory.
+You have access to a shared knowledge graph (NexMem) for persistent memory.
 
 READING — Proactively search memory at the start of relevant tasks:
 - Before working on a service, component, or system, call search_nodes to check \

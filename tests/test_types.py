@@ -1,6 +1,6 @@
 """Tests for knowledge graph types and serialization."""
 
-from hivemind_mcp.types import Entity, KnowledgeGraph, Relation
+from nexmem_mcp.types import Entity, KnowledgeGraph, Relation
 
 
 def test_entity_roundtrip():

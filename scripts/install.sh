@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# ── HiveMind MCP Interactive Installer ──────────────────────────────────
+# ── NexMem MCP Interactive Installer ──────────────────────────────────
 #
 # Generates the mcp.json snippet for Cursor, Claude Desktop, or other
 # MCP clients. Run: bash scripts/install.sh
@@ -13,7 +13,7 @@ CYAN='\033[0;36m'
 YELLOW='\033[0;33m'
 NC='\033[0m'
 
-echo -e "${BOLD}${CYAN}🐝 HiveMind MCP — Interactive Setup${NC}\n"
+echo -e "${BOLD}${CYAN}NexMem MCP — Interactive Setup${NC}\n"
 
 # ── Step 1: Memory mode ─────────────────────────────────────────────────
 echo -e "${BOLD}1. Memory Mode${NC}"
@@ -23,18 +23,18 @@ read -rp "   Choose (1/2) [1]: " mode_choice
 mode_choice=${mode_choice:-1}
 
 if [[ "$mode_choice" == "2" ]]; then
-    HIVEMIND_MODE="team"
-    read -rp "   Team name: " HIVEMIND_TEAM_NAME
-    if [[ -z "$HIVEMIND_TEAM_NAME" ]]; then
+    NEXMEM_MODE="team"
+    read -rp "   Team name: " NEXMEM_TEAM_NAME
+    if [[ -z "$NEXMEM_TEAM_NAME" ]]; then
         echo "Error: Team name is required for team mode." >&2
         exit 1
     fi
 else
-    HIVEMIND_MODE="self"
-    HIVEMIND_TEAM_NAME=""
+    NEXMEM_MODE="self"
+    NEXMEM_TEAM_NAME=""
 fi
 
-HIVEMIND_USER_NAME="${USER:-$(whoami)}"
+NEXMEM_USER_NAME="${USER:-$(whoami)}"
 echo ""
 
 # ── Step 2: Storage backend ─────────────────────────────────────────────
@@ -48,22 +48,22 @@ read -rp "   Choose (1-5) [1]: " backend_choice
 backend_choice=${backend_choice:-1}
 
 case "$backend_choice" in
-    1) HIVEMIND_BACKEND="jsonl"; EXTRA_ENV="" ;;
-    2) HIVEMIND_BACKEND="sqlite"; EXTRA_ENV="" ;;
+    1) NEXMEM_BACKEND="jsonl"; EXTRA_ENV="" ;;
+    2) NEXMEM_BACKEND="sqlite"; EXTRA_ENV="" ;;
     3)
-        HIVEMIND_BACKEND="mongodb"
-        read -rp "   MongoDB URI [mongodb://localhost:27017/hivemind]: " uri
-        EXTRA_ENV="\"HIVEMIND_MONGODB_URI\": \"${uri:-mongodb://localhost:27017/hivemind}\""
+        NEXMEM_BACKEND="mongodb"
+        read -rp "   MongoDB URI [mongodb://localhost:27017/nexmem]: " uri
+        EXTRA_ENV="\"NEXMEM_MONGODB_URI\": \"${uri:-mongodb://localhost:27017/nexmem}\""
         ;;
     4)
-        HIVEMIND_BACKEND="postgres"
-        read -rp "   PostgreSQL URI [postgresql://localhost:5432/hivemind]: " uri
-        EXTRA_ENV="\"HIVEMIND_POSTGRES_URI\": \"${uri:-postgresql://localhost:5432/hivemind}\""
+        NEXMEM_BACKEND="postgres"
+        read -rp "   PostgreSQL URI [postgresql://localhost:5432/nexmem]: " uri
+        EXTRA_ENV="\"NEXMEM_POSTGRES_URI\": \"${uri:-postgresql://localhost:5432/nexmem}\""
         ;;
     5)
-        HIVEMIND_BACKEND="redis"
+        NEXMEM_BACKEND="redis"
         read -rp "   Redis URL [redis://localhost:6379/0]: " uri
-        EXTRA_ENV="\"HIVEMIND_REDIS_URL\": \"${uri:-redis://localhost:6379/0}\""
+        EXTRA_ENV="\"NEXMEM_REDIS_URL\": \"${uri:-redis://localhost:6379/0}\""
         ;;
     *)
         echo "Invalid choice." >&2
@@ -73,11 +73,11 @@ esac
 echo ""
 
 # ── Step 3: Install package ─────────────────────────────────────────────
-echo -e "${BOLD}3. Installing mcp-hivemind...${NC}"
-if [[ "$HIVEMIND_BACKEND" == "jsonl" || "$HIVEMIND_BACKEND" == "sqlite" ]]; then
-    pip install mcp-hivemind 2>/dev/null || echo -e "${YELLOW}   (Install manually: pip install mcp-hivemind)${NC}"
+echo -e "${BOLD}3. Installing mcp-nexmem...${NC}"
+if [[ "$NEXMEM_BACKEND" == "jsonl" || "$NEXMEM_BACKEND" == "sqlite" ]]; then
+    pip install mcp-nexmem 2>/dev/null || echo -e "${YELLOW}   (Install manually: pip install mcp-nexmem)${NC}"
 else
-    pip install "mcp-hivemind[$HIVEMIND_BACKEND]" 2>/dev/null || echo -e "${YELLOW}   (Install manually: pip install 'mcp-hivemind[$HIVEMIND_BACKEND]')${NC}"
+    pip install "mcp-nexmem[$NEXMEM_BACKEND]" 2>/dev/null || echo -e "${YELLOW}   (Install manually: pip install 'mcp-nexmem[$NEXMEM_BACKEND]')${NC}"
 fi
 echo ""
 
@@ -85,13 +85,13 @@ echo ""
 echo -e "${BOLD}4. MCP Configuration${NC}"
 echo -e "${DIM}   Add this to your ~/.cursor/mcp.json (or equivalent):${NC}\n"
 
-ENV_BLOCK="\"HIVEMIND_MODE\": \"$HIVEMIND_MODE\",
-        \"HIVEMIND_BACKEND\": \"$HIVEMIND_BACKEND\",
-        \"HIVEMIND_USER_NAME\": \"$HIVEMIND_USER_NAME\""
+ENV_BLOCK="\"NEXMEM_MODE\": \"$NEXMEM_MODE\",
+        \"NEXMEM_BACKEND\": \"$NEXMEM_BACKEND\",
+        \"NEXMEM_USER_NAME\": \"$NEXMEM_USER_NAME\""
 
-if [[ -n "$HIVEMIND_TEAM_NAME" ]]; then
+if [[ -n "$NEXMEM_TEAM_NAME" ]]; then
     ENV_BLOCK="$ENV_BLOCK,
-        \"HIVEMIND_TEAM_NAME\": \"$HIVEMIND_TEAM_NAME\""
+        \"NEXMEM_TEAM_NAME\": \"$NEXMEM_TEAM_NAME\""
 fi
 
 if [[ -n "$EXTRA_ENV" ]]; then
@@ -103,8 +103,8 @@ echo -e "${GREEN}"
 cat <<EOF
 {
   "mcpServers": {
-    "hivemind": {
-      "command": "hivemind-mcp",
+    "nexmem": {
+      "command": "nexmem-mcp",
       "env": {
         $ENV_BLOCK
       }
@@ -114,10 +114,10 @@ cat <<EOF
 EOF
 echo -e "${NC}"
 
-echo -e "${BOLD}${GREEN}✓ Setup complete!${NC} Restart your IDE to activate HiveMind memory."
+echo -e "${BOLD}${GREEN}✓ Setup complete!${NC} Restart your IDE to activate NexMem memory."
 
 # ── Docker hint for team backends ────────────────────────────────────────
-if [[ "$HIVEMIND_BACKEND" == "mongodb" || "$HIVEMIND_BACKEND" == "postgres" || "$HIVEMIND_BACKEND" == "redis" ]]; then
-    echo -e "\n${DIM}Tip: Need a local ${HIVEMIND_BACKEND}? Run:${NC}"
-    echo -e "  docker compose --profile ${HIVEMIND_BACKEND} up -d"
+if [[ "$NEXMEM_BACKEND" == "mongodb" || "$NEXMEM_BACKEND" == "postgres" || "$NEXMEM_BACKEND" == "redis" ]]; then
+    echo -e "\n${DIM}Tip: Need a local ${NEXMEM_BACKEND}? Run:${NC}"
+    echo -e "  docker compose --profile ${NEXMEM_BACKEND} up -d"
 fi

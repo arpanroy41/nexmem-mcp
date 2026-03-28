@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-from hivemind_mcp.config import HiveMindConfig, MemoryMode
+from nexmem_mcp.config import NexMemConfig, MemoryMode
 
 
-def resolve_namespace(config: HiveMindConfig) -> str:
+def resolve_namespace(config: NexMemConfig) -> str:
     """Build a namespace string from the current configuration.
 
     Returns:

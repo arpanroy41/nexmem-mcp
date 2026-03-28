@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from typing import Callable, Type
 
-from hivemind_mcp.adapters.base import StorageAdapter
-from hivemind_mcp.config import BackendType, HiveMindConfig
+from nexmem_mcp.adapters.base import StorageAdapter
+from nexmem_mcp.config import BackendType, NexMemConfig
 
 _REGISTRY: dict[str, Type[StorageAdapter]] = {}
 
@@ -25,7 +25,7 @@ def register_adapter(name: str) -> Callable[[Type[StorageAdapter]], Type[Storage
     return wrapper
 
 
-def create_adapter(config: HiveMindConfig) -> StorageAdapter:
+def create_adapter(config: NexMemConfig) -> StorageAdapter:
     """Instantiate the appropriate adapter based on configuration."""
     _ensure_builtins_loaded()
 
@@ -34,7 +34,7 @@ def create_adapter(config: HiveMindConfig) -> StorageAdapter:
         available = ", ".join(sorted(_REGISTRY.keys()))
         raise ValueError(
             f"Unknown backend '{name}'. Available: {available}. "
-            f"You may need to install an extra: pip install 'mcp-hivemind[{name}]'"
+            f"You may need to install an extra: pip install 'mcp-nexmem[{name}]'"
         )
 
     adapter_cls = _REGISTRY[name]
@@ -43,18 +43,18 @@ def create_adapter(config: HiveMindConfig) -> StorageAdapter:
 
 def _ensure_builtins_loaded() -> None:
     """Import built-in adapters so their @register_adapter decorators run."""
-    import hivemind_mcp.adapters.jsonl  # noqa: F401
-    import hivemind_mcp.adapters.sqlite  # noqa: F401
+    import nexmem_mcp.adapters.jsonl  # noqa: F401
+    import nexmem_mcp.adapters.sqlite  # noqa: F401
 
     try:
-        import hivemind_mcp.adapters.mongodb  # noqa: F401
+        import nexmem_mcp.adapters.mongodb  # noqa: F401
     except ImportError:
         pass
     try:
-        import hivemind_mcp.adapters.postgres  # noqa: F401
+        import nexmem_mcp.adapters.postgres  # noqa: F401
     except ImportError:
         pass
     try:
-        import hivemind_mcp.adapters.redis  # noqa: F401
+        import nexmem_mcp.adapters.redis  # noqa: F401
     except ImportError:
         pass

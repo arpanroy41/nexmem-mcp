@@ -16,9 +16,9 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: hivemind
-      POSTGRES_USER: hivemind
-      POSTGRES_PASSWORD: hivemind
+      POSTGRES_DB: nexmem
+      POSTGRES_USER: nexmem
+      POSTGRES_PASSWORD: nexmem
     volumes:
       - pg_data:/var/lib/postgresql/data
 

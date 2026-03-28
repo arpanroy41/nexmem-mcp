@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 
-from hivemind_mcp.types import (
+from nexmem_mcp.types import (
     Entity,
     KnowledgeGraph,
     ObservationDeletion,

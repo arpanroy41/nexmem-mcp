@@ -3,14 +3,14 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "mcp-hivemind"
-version = "0.1.0"
-description = "HiveMind: Shared Agent Memory for Teams — a plug-and-play MCP memory server with pluggable database backends"
+name = "mcp-nexmem"
+version = "0.2.0"
+description = "NexMem: Shared Agent Memory for Teams — a plug-and-play MCP memory server with pluggable database backends"
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.11"
 authors = [
-    { name = "HiveMind Contributors" },
+    { name = "NexMem Contributors" },
 ]
 keywords = ["mcp", "memory", "knowledge-graph", "ai", "team", "agent"]
 classifiers = [
@@ -46,15 +46,15 @@ dev = [
 ]
 
 [project.scripts]
-hivemind-mcp = "hivemind_mcp.server:main"
+nexmem-mcp = "nexmem_mcp.server:main"
 
 [project.urls]
-Homepage = "https://github.com/arpanroy41/hivemind-mcp"
-Repository = "https://github.com/arpanroy41/hivemind-mcp"
-Issues = "https://github.com/arpanroy41/hivemind-mcp/issues"
+Homepage = "https://github.com/arpanroy41/nexmem-mcp"
+Repository = "https://github.com/arpanroy41/nexmem-mcp"
+Issues = "https://github.com/arpanroy41/nexmem-mcp/issues"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/hivemind_mcp"]
+packages = ["src/nexmem_mcp"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

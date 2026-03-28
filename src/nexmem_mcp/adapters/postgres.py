@@ -1,16 +1,16 @@
 """PostgreSQL adapter with JSONB storage and single-statement atomicity.
 
-Requires: pip install 'mcp-hivemind[postgres]'
+Requires: pip install 'mcp-nexmem[postgres]'
 """
 
 from __future__ import annotations
 
 import json
 
-from hivemind_mcp.adapters import register_adapter
-from hivemind_mcp.adapters.base import StorageAdapter
-from hivemind_mcp.config import HiveMindConfig
-from hivemind_mcp.types import (
+from nexmem_mcp.adapters import register_adapter
+from nexmem_mcp.adapters.base import StorageAdapter
+from nexmem_mcp.config import NexMemConfig
+from nexmem_mcp.types import (
     Entity,
     KnowledgeGraph,
     ObservationDeletion,
@@ -23,13 +23,13 @@ try:
     import asyncpg
 except ImportError:
     raise ImportError(
-        "PostgreSQL adapter requires 'asyncpg'. Install with: pip install 'mcp-hivemind[postgres]'"
+        "PostgreSQL adapter requires 'asyncpg'. Install with: pip install 'mcp-nexmem[postgres]'"
     )
 
 
 @register_adapter("postgres")
 class PostgresAdapter(StorageAdapter):
-    def __init__(self, config: HiveMindConfig) -> None:
+    def __init__(self, config: NexMemConfig) -> None:
         self._dsn = config.postgres_uri
         self._pool: asyncpg.Pool | None = None
 

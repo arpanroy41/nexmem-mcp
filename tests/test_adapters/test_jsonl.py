@@ -2,8 +2,8 @@
 
 import pytest
 
-from hivemind_mcp.adapters.jsonl import JsonlAdapter
-from hivemind_mcp.types import Entity, ObservationDeletion, ObservationUpdate, Relation
+from nexmem_mcp.adapters.jsonl import JsonlAdapter
+from nexmem_mcp.types import Entity, ObservationDeletion, ObservationUpdate, Relation
 
 NS = "self:testuser"
 

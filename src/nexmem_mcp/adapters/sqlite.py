@@ -6,10 +6,10 @@ import json
 import sqlite3
 from pathlib import Path
 
-from hivemind_mcp.adapters import register_adapter
-from hivemind_mcp.adapters.base import StorageAdapter
-from hivemind_mcp.config import HiveMindConfig
-from hivemind_mcp.types import (
+from nexmem_mcp.adapters import register_adapter
+from nexmem_mcp.adapters.base import StorageAdapter
+from nexmem_mcp.config import NexMemConfig
+from nexmem_mcp.types import (
     Entity,
     KnowledgeGraph,
     ObservationDeletion,
@@ -21,7 +21,7 @@ from hivemind_mcp.types import (
 
 @register_adapter("sqlite")
 class SqliteAdapter(StorageAdapter):
-    def __init__(self, config: HiveMindConfig) -> None:
+    def __init__(self, config: NexMemConfig) -> None:
         path = Path(config.sqlite_path)
         path.parent.mkdir(parents=True, exist_ok=True)
         self._db_path = str(path)

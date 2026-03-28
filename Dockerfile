@@ -7,33 +7,33 @@ COPY src/ src/
 RUN pip install --no-cache-dir .
 
 # Default: JSONL backend, self mode
-ENV HIVEMIND_MODE=self
-ENV HIVEMIND_BACKEND=jsonl
-ENV HIVEMIND_JSONL_PATH=/data/memory.jsonl
+ENV NEXMEM_MODE=self
+ENV NEXMEM_BACKEND=jsonl
+ENV NEXMEM_JSONL_PATH=/data/memory.jsonl
 
 VOLUME /data
 
-ENTRYPOINT ["hivemind-mcp"]
+ENTRYPOINT ["nexmem-mcp"]
 
 # ── With MongoDB support ──
 FROM base AS mongodb
 RUN pip install --no-cache-dir ".[mongodb]"
-ENV HIVEMIND_BACKEND=mongodb
-ENTRYPOINT ["hivemind-mcp"]
+ENV NEXMEM_BACKEND=mongodb
+ENTRYPOINT ["nexmem-mcp"]
 
 # ── With PostgreSQL support ──
 FROM base AS postgres
 RUN pip install --no-cache-dir ".[postgres]"
-ENV HIVEMIND_BACKEND=postgres
-ENTRYPOINT ["hivemind-mcp"]
+ENV NEXMEM_BACKEND=postgres
+ENTRYPOINT ["nexmem-mcp"]
 
 # ── With Redis support ──
 FROM base AS redis
 RUN pip install --no-cache-dir ".[redis]"
-ENV HIVEMIND_BACKEND=redis
-ENTRYPOINT ["hivemind-mcp"]
+ENV NEXMEM_BACKEND=redis
+ENTRYPOINT ["nexmem-mcp"]
 
 # ── With all backends ──
 FROM base AS all
 RUN pip install --no-cache-dir ".[all]"
-ENTRYPOINT ["hivemind-mcp"]
+ENTRYPOINT ["nexmem-mcp"]

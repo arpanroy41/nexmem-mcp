@@ -1,8 +1,8 @@
-# HiveMind MCP
+# NexMem MCP
 
 **Shared Agent Memory for Teams** — a plug-and-play MCP memory server with pluggable database backends.
 
-HiveMind gives AI coding agents (Cursor, Claude Desktop, etc.) a persistent knowledge graph that the whole team shares. Agents learn as they work — discovering services, architecture patterns, and conventions — then recall that knowledge instantly in future sessions.
+NexMem gives AI coding agents (Cursor, Claude Desktop, etc.) a persistent knowledge graph that the whole team shares. Agents learn as they work — discovering services, architecture patterns, and conventions — then recall that knowledge instantly in future sessions.
 
 ## Features
 
@@ -19,16 +19,16 @@ HiveMind gives AI coding agents (Cursor, Claude Desktop, etc.) a persistent know
 ### 1. Install
 
 ```bash
-pip install mcp-hivemind
+pip install mcp-nexmem
 ```
 
 Or with a database backend:
 
 ```bash
-pip install "mcp-hivemind[mongodb]"   # MongoDB
-pip install "mcp-hivemind[postgres]"  # PostgreSQL
-pip install "mcp-hivemind[redis]"     # Redis
-pip install "mcp-hivemind[all]"       # All backends
+pip install "mcp-nexmem[mongodb]"   # MongoDB
+pip install "mcp-nexmem[postgres]"  # PostgreSQL
+pip install "mcp-nexmem[redis]"     # Redis
+pip install "mcp-nexmem[all]"       # All backends
 ```
 
 ### 2. Configure
@@ -38,10 +38,10 @@ Add to your `~/.cursor/mcp.json`:
 ```json
 {
   "mcpServers": {
-    "hivemind": {
-      "command": "hivemind-mcp",
+    "nexmem": {
+      "command": "nexmem-mcp",
       "env": {
-        "HIVEMIND_MODE": "self"
+        "NEXMEM_MODE": "self"
       }
     }
   }
@@ -57,7 +57,7 @@ That's it. The agent now has persistent memory.
 For a guided setup that generates the config for you:
 
 ```bash
-hivemind-mcp init
+nexmem-mcp init
 ```
 
 Or run the install script:
@@ -68,30 +68,30 @@ bash scripts/install.sh
 
 ## Configuration Reference
 
-All configuration is via environment variables (prefix: `HIVEMIND_`):
+All configuration is via environment variables (prefix: `NEXMEM_`):
 
 | Variable | Default | Description |
 |---|---|---|
-| `HIVEMIND_MODE` | `self` | `self` for personal memory, `team` for shared |
-| `HIVEMIND_USER_NAME` | OS username | Your identity |
-| `HIVEMIND_TEAM_NAME` | *(required for team)* | Team identifier |
-| `HIVEMIND_BACKEND` | `jsonl` | `jsonl` / `sqlite` / `mongodb` / `postgres` / `redis` |
-| `HIVEMIND_READ_ONLY` | `false` | Disable write tools |
-| `HIVEMIND_INSTRUCTIONS` | *(built-in)* | Custom instructions file path or inline text |
+| `NEXMEM_MODE` | `self` | `self` for personal memory, `team` for shared |
+| `NEXMEM_USER_NAME` | OS username | Your identity |
+| `NEXMEM_TEAM_NAME` | *(required for team)* | Team identifier |
+| `NEXMEM_BACKEND` | `jsonl` | `jsonl` / `sqlite` / `mongodb` / `postgres` / `redis` |
+| `NEXMEM_READ_ONLY` | `false` | Disable write tools |
+| `NEXMEM_INSTRUCTIONS` | *(built-in)* | Custom instructions file path or inline text |
 
 ### Backend-specific variables
 
 | Variable | Default |
 |---|---|
-| `HIVEMIND_JSONL_PATH` | `~/.hivemind/memory.jsonl` |
-| `HIVEMIND_SQLITE_PATH` | `~/.hivemind/memory.db` |
-| `HIVEMIND_MONGODB_URI` | `mongodb://localhost:27017/hivemind` |
-| `HIVEMIND_POSTGRES_URI` | `postgresql://localhost:5432/hivemind` |
-| `HIVEMIND_REDIS_URL` | `redis://localhost:6379/0` |
+| `NEXMEM_JSONL_PATH` | `~/.nexmem/memory.jsonl` |
+| `NEXMEM_SQLITE_PATH` | `~/.nexmem/memory.db` |
+| `NEXMEM_MONGODB_URI` | `mongodb://localhost:27017/nexmem` |
+| `NEXMEM_POSTGRES_URI` | `postgresql://localhost:5432/nexmem` |
+| `NEXMEM_REDIS_URL` | `redis://localhost:6379/0` |
 
 ## Namespaces: How Data Isolation Works
 
-`HIVEMIND_TEAM_NAME` and `HIVEMIND_USER_NAME` control which **namespace** your data is stored under. Namespaces provide complete data isolation within the same database.
+`NEXMEM_TEAM_NAME` and `NEXMEM_USER_NAME` control which **namespace** your data is stored under. Namespaces provide complete data isolation within the same database.
 
 | Config | Namespace | Who sees the data |
 |---|---|---|
@@ -106,8 +106,8 @@ Every entity and relation is tagged with the namespace in the database:
 { "namespace": "team:platform-eng", "name": "AuthService", "entity_type": "service", ... }
 ```
 
-- **In team mode**, `HIVEMIND_TEAM_NAME` determines the namespace. All team members who set the same team name share one knowledge graph.
-- **In self mode**, `HIVEMIND_USER_NAME` determines the namespace. Each user has a private graph.
+- **In team mode**, `NEXMEM_TEAM_NAME` determines the namespace. All team members who set the same team name share one knowledge graph.
+- **In self mode**, `NEXMEM_USER_NAME` determines the namespace. Each user has a private graph.
 - Multiple teams can share the same database — their data is isolated by namespace.
 - Switching modes doesn't delete data. Both `self:alice` and `team:platform-eng` can coexist.
 
@@ -122,7 +122,7 @@ Pick a database your team can all reach.
 1. Sign up at [mongodb.com/atlas](https://www.mongodb.com/atlas) and create a Free M0 cluster
 2. Create a database user and set Network Access to `0.0.0.0/0` (allow all IPs)
 3. Click Connect > Drivers > copy the connection string
-4. Use it as `HIVEMIND_MONGODB_URI` (append `/hivemind` as the database name)
+4. Use it as `NEXMEM_MONGODB_URI` (append `/nexmem` as the database name)
 
 **Option B: Local Docker (for testing)**
 
@@ -137,13 +137,13 @@ Each team member adds this to their `~/.cursor/mcp.json`:
 ```json
 {
   "mcpServers": {
-    "hivemind": {
-      "command": "hivemind-mcp",
+    "nexmem": {
+      "command": "nexmem-mcp",
       "env": {
-        "HIVEMIND_MODE": "team",
-        "HIVEMIND_TEAM_NAME": "platform-eng",
-        "HIVEMIND_BACKEND": "mongodb",
-        "HIVEMIND_MONGODB_URI": "mongodb://shared-host:27017/hivemind"
+        "NEXMEM_MODE": "team",
+        "NEXMEM_TEAM_NAME": "platform-eng",
+        "NEXMEM_BACKEND": "mongodb",
+        "NEXMEM_MONGODB_URI": "mongodb://shared-host:27017/nexmem"
       }
     }
   }
@@ -158,7 +158,7 @@ Agents will proactively read from and write to the shared knowledge graph. When 
 
 ### Data Model
 
-HiveMind stores a knowledge graph with two types of records:
+NexMem stores a knowledge graph with two types of records:
 
 **Entities** — things the agent knows about (services, repos, APIs, etc.):
 
@@ -198,11 +198,11 @@ The server includes built-in instructions that guide the agent:
 - **Writes proactively** — saves useful discoveries (services, patterns, decisions) without being asked
 - **Skips noise** — doesn't save trivial or temporary information
 
-You can customize this behavior with `HIVEMIND_INSTRUCTIONS`.
+You can customize this behavior with `NEXMEM_INSTRUCTIONS`.
 
 ### Conflict Safety
 
-Unlike file-based approaches that load → modify → overwrite (causing race conditions), HiveMind uses **atomic database operations**:
+Unlike file-based approaches that load → modify → overwrite (causing race conditions), NexMem uses **atomic database operations**:
 
 - `create_entities` → `INSERT ... ON CONFLICT DO NOTHING`
 - `add_observations` → atomic array append
@@ -214,7 +214,7 @@ Two team members writing simultaneously both succeed without overwriting each ot
 
 ### JSONL (default)
 
-Zero dependencies. Stores one `.jsonl` file per namespace in `~/.hivemind/`. Uses file locking for safety. Best for self mode.
+Zero dependencies. Stores one `.jsonl` file per namespace in `~/.nexmem/`. Uses file locking for safety. Best for self mode.
 
 ### SQLite
 
@@ -222,19 +222,19 @@ Zero extra dependencies (uses stdlib). Stores a single `.db` file with proper ta
 
 ### MongoDB
 
-Install: `pip install "mcp-hivemind[mongodb]"`
+Install: `pip install "mcp-nexmem[mongodb]"`
 
 Recommended for teams. Document model fits naturally. Uses `insertMany(ordered=false)` for idempotent creates, `$push` for atomic observation appends.
 
 ### PostgreSQL
 
-Install: `pip install "mcp-hivemind[postgres]"`
+Install: `pip install "mcp-nexmem[postgres]"`
 
 Uses JSONB columns for observations. `INSERT ... ON CONFLICT DO NOTHING` for safe concurrent writes. Connection pooling via asyncpg.
 
 ### Redis
 
-Install: `pip install "mcp-hivemind[redis]"`
+Install: `pip install "mcp-nexmem[redis]"`
 
 Stores entities as hash fields, relations as set members. Fast reads. `HSETNX` for atomic creates.
 
@@ -243,8 +243,8 @@ Stores entities as hash fields, relations as set members. Fast reads. `HSETNX` f
 Implement the `StorageAdapter` ABC and register it:
 
 ```python
-from hivemind_mcp.adapters import register_adapter
-from hivemind_mcp.adapters.base import StorageAdapter
+from nexmem_mcp.adapters import register_adapter
+from nexmem_mcp.adapters.base import StorageAdapter
 
 @register_adapter("dynamodb")
 class DynamoDBAdapter(StorageAdapter):
@@ -253,7 +253,7 @@ class DynamoDBAdapter(StorageAdapter):
 
 ## Importing Existing Data
 
-If you have JSONL files from `@modelcontextprotocol/server-memory` or `harbor-memory-mcp`, use the `import_jsonl` tool:
+If you have JSONL files from `@modelcontextprotocol/server-memory` or other MCP memory servers, use the `import_jsonl` tool:
 
 ```
 "Import this data into memory: <paste JSONL content>"
@@ -274,16 +274,16 @@ docker compose --profile redis up -d      # Redis on :6379
 ### Running the server in Docker
 
 ```bash
-docker build --target all -t hivemind-mcp .
-docker run -e HIVEMIND_MODE=team -e HIVEMIND_BACKEND=mongodb \
-  -e HIVEMIND_MONGODB_URI=mongodb://host:27017/hivemind hivemind-mcp
+docker build --target all -t nexmem-mcp .
+docker run -e NEXMEM_MODE=team -e NEXMEM_BACKEND=mongodb \
+  -e NEXMEM_MONGODB_URI=mongodb://host:27017/nexmem nexmem-mcp
 ```
 
 ## Development
 
 ```bash
-git clone https://github.com/arpanroy41/hivemind-mcp.git
-cd hivemind-mcp
+git clone https://github.com/arpanroy41/nexmem-mcp.git
+cd nexmem-mcp
 pip install -e ".[dev]"
 pytest
 ```

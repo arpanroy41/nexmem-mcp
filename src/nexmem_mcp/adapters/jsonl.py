@@ -10,10 +10,10 @@ import fcntl
 import json
 from pathlib import Path
 
-from hivemind_mcp.adapters import register_adapter
-from hivemind_mcp.adapters.base import StorageAdapter
-from hivemind_mcp.config import HiveMindConfig
-from hivemind_mcp.types import (
+from nexmem_mcp.adapters import register_adapter
+from nexmem_mcp.adapters.base import StorageAdapter
+from nexmem_mcp.config import NexMemConfig
+from nexmem_mcp.types import (
     Entity,
     KnowledgeGraph,
     ObservationDeletion,
@@ -25,7 +25,7 @@ from hivemind_mcp.types import (
 
 @register_adapter("jsonl")
 class JsonlAdapter(StorageAdapter):
-    def __init__(self, config: HiveMindConfig) -> None:
+    def __init__(self, config: NexMemConfig) -> None:
         self._base_path = Path(config.jsonl_path).parent
 
     def _path_for(self, namespace: str) -> Path:

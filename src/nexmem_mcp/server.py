@@ -7,11 +7,11 @@ import sys
 
 from fastmcp import FastMCP
 
-from hivemind_mcp.adapters import create_adapter
-from hivemind_mcp.config import HiveMindConfig
-from hivemind_mcp.manager import KnowledgeGraphManager
-from hivemind_mcp.namespace import resolve_namespace
-from hivemind_mcp.types import (
+from nexmem_mcp.adapters import create_adapter
+from nexmem_mcp.config import NexMemConfig
+from nexmem_mcp.manager import KnowledgeGraphManager
+from nexmem_mcp.namespace import resolve_namespace
+from nexmem_mcp.types import (
     Entity,
     KnowledgeGraph,
     ObservationDeletion,
@@ -19,13 +19,13 @@ from hivemind_mcp.types import (
     Relation,
 )
 
-config = HiveMindConfig()
+config = NexMemConfig()
 adapter = create_adapter(config)
 namespace = resolve_namespace(config)
 manager = KnowledgeGraphManager(adapter, namespace)
 
 mcp = FastMCP(
-    name="hivemind-mcp",
+    name="nexmem-mcp",
     instructions=config.get_instructions(),
 )
 
@@ -187,7 +187,7 @@ async def get_memory_status() -> dict:
 async def import_jsonl(jsonl_content: str) -> str:
     """Import entities and relations from JSONL-formatted text.
 
-    Compatible with @modelcontextprotocol/server-memory and harbor-memory-mcp exports.
+    Compatible with @modelcontextprotocol/server-memory and other MCP memory exports.
     Each line should be a JSON object with a 'type' field of 'entity' or 'relation'.
     """
     entities: list[Entity] = []

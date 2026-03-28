@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from hivemind_mcp.adapters.base import StorageAdapter
-from hivemind_mcp.types import (
+from nexmem_mcp.adapters.base import StorageAdapter
+from nexmem_mcp.types import (
     Entity,
     KnowledgeGraph,
     ObservationDeletion,

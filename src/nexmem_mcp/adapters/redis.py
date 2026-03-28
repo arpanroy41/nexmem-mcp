@@ -1,16 +1,16 @@
 """Redis adapter using hash keys per entity and sorted sets for relations.
 
-Requires: pip install 'mcp-hivemind[redis]'
+Requires: pip install 'mcp-nexmem[redis]'
 """
 
 from __future__ import annotations
 
 import json
 
-from hivemind_mcp.adapters import register_adapter
-from hivemind_mcp.adapters.base import StorageAdapter
-from hivemind_mcp.config import HiveMindConfig
-from hivemind_mcp.types import (
+from nexmem_mcp.adapters import register_adapter
+from nexmem_mcp.adapters.base import StorageAdapter
+from nexmem_mcp.config import NexMemConfig
+from nexmem_mcp.types import (
     Entity,
     KnowledgeGraph,
     ObservationDeletion,
@@ -23,7 +23,7 @@ try:
     import redis.asyncio as aioredis
 except ImportError:
     raise ImportError(
-        "Redis adapter requires 'redis'. Install with: pip install 'mcp-hivemind[redis]'"
+        "Redis adapter requires 'redis'. Install with: pip install 'mcp-nexmem[redis]'"
     )
 
 
@@ -36,7 +36,7 @@ class RedisAdapter(StorageAdapter):
         {namespace}:relations       — Set of JSON strings for each relation
     """
 
-    def __init__(self, config: HiveMindConfig) -> None:
+    def __init__(self, config: NexMemConfig) -> None:
         self._redis = aioredis.from_url(config.redis_url, decode_responses=True)
 
     def _ek(self, namespace: str) -> str:

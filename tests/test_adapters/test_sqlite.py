@@ -2,8 +2,8 @@
 
 import pytest
 
-from hivemind_mcp.adapters.sqlite import SqliteAdapter
-from hivemind_mcp.types import Entity, ObservationDeletion, ObservationUpdate, Relation
+from nexmem_mcp.adapters.sqlite import SqliteAdapter
+from nexmem_mcp.types import Entity, ObservationDeletion, ObservationUpdate, Relation
 
 NS = "self:testuser"
 
