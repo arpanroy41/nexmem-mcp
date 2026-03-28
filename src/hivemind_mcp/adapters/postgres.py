@@ -1,6 +1,6 @@
 """PostgreSQL adapter with JSONB storage and single-statement atomicity.
 
-Requires: pip install 'hivemind-mcp[postgres]'
+Requires: pip install 'mcp-hivemind[postgres]'
 """
 
 from __future__ import annotations
@@ -23,7 +23,7 @@ try:
     import asyncpg
 except ImportError:
     raise ImportError(
-        "PostgreSQL adapter requires 'asyncpg'. Install with: pip install 'hivemind-mcp[postgres]'"
+        "PostgreSQL adapter requires 'asyncpg'. Install with: pip install 'mcp-hivemind[postgres]'"
     )
 
 

@@ -34,7 +34,7 @@ def create_adapter(config: HiveMindConfig) -> StorageAdapter:
         available = ", ".join(sorted(_REGISTRY.keys()))
         raise ValueError(
             f"Unknown backend '{name}'. Available: {available}. "
-            f"You may need to install an extra: pip install 'hivemind-mcp[{name}]'"
+            f"You may need to install an extra: pip install 'mcp-hivemind[{name}]'"
         )
 
     adapter_cls = _REGISTRY[name]

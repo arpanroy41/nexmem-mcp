@@ -1,6 +1,6 @@
 """Redis adapter using hash keys per entity and sorted sets for relations.
 
-Requires: pip install 'hivemind-mcp[redis]'
+Requires: pip install 'mcp-hivemind[redis]'
 """
 
 from __future__ import annotations
@@ -23,7 +23,7 @@ try:
     import redis.asyncio as aioredis
 except ImportError:
     raise ImportError(
-        "Redis adapter requires 'redis'. Install with: pip install 'hivemind-mcp[redis]'"
+        "Redis adapter requires 'redis'. Install with: pip install 'mcp-hivemind[redis]'"
     )
 
 

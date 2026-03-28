@@ -1,6 +1,6 @@
 """MongoDB adapter — recommended for team mode.
 
-Requires: pip install 'hivemind-mcp[mongodb]'
+Requires: pip install 'mcp-hivemind[mongodb]'
 """
 
 from __future__ import annotations
@@ -21,7 +21,7 @@ try:
     import motor.motor_asyncio as motor
 except ImportError:
     raise ImportError(
-        "MongoDB adapter requires 'motor'. Install with: pip install 'hivemind-mcp[mongodb]'"
+        "MongoDB adapter requires 'motor'. Install with: pip install 'mcp-hivemind[mongodb]'"
     )
 
 
